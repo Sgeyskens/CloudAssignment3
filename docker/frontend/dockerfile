@@ -1,0 +1,27 @@
+FROM python:3.12
+
+WORKDIR /app
+
+RUN apt-get update && apt-get install -y git && rm -rf /var/lib/apt/lists/*
+
+COPY flask-crud .
+
+RUN pip install --upgrade pip && \
+    pip install -r requirements.txt && \
+    pip install gunicorn
+
+# Accept environment variables for the database connection
+
+ENV DATABASE_URL=""
+ENV DATABASE_USERNAME=""
+ENV DATABASE_PASSWORD=""
+
+ENV FLASK_APP=crudapp.py
+ENV FLASK_RUN_PORT=80
+
+
+COPY docker-entrypoint.sh /entrypoint.sh
+RUN chmod +x /entrypoint.sh
+ENTRYPOINT ["/entrypoint.sh"]
+
+EXPOSE 80

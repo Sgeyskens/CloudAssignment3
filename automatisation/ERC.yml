@@ -1,0 +1,21 @@
+Description: Create an ECR Repository
+
+
+Parameters:
+  RepositoryName:
+    Description: The Repository name
+    Type: String
+
+  Mutable:
+    Description: Please enter the IP range (CIDR notation) for this VPC
+    Type: String
+    AllowedValues:
+      - "MUTABLE"
+      - "INMUTABLE"
+
+Resources:
+  ECRRepository:
+    Type: AWS::ECR::Repository
+    Properties:
+      RepositoryName: !Ref RepositoryName
+      ImageTagMutability: !Ref Mutable
